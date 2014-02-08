@@ -1,0 +1,18 @@
+load('Esfile.mat');
+
+p = zeros(size(E));
+q = zeros(size(E));
+ptemp = zeros(size(E));
+qtemp = zeros(size(E));
+
+M = size(E,1);
+N = size(E,2);
+
+iters = 10;
+lamdba = 0.5
+
+for kk = 1:iters,
+    for i=1:M,
+        for j=1:N
+    p(i,j) = (ptemp(i,j-1)+ptemp(i-1,j)+ptemp(i,j+1)+ptemp(i+1,j))/4 + (1/lambda)*(E(i,j) - Rval(ptemp(i,j), qtemp(i,j), s))*(Rval(ptemp(i+1,j), qtemp(i,j), s)-Rval(ptemp(i-1,j), qtemp(i,j), s))/2;
+    
