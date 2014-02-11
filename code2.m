@@ -1,5 +1,4 @@
-
-
+clear all
 
 load('DataFile1.mat');
 % load('PQFfile.mat');
@@ -43,3 +42,5 @@ for i=1:M,
 end
 figure(2)
 imshow(mat2gray(R_est));
+
+save('DataFile2.mat', 'R_est', 'pn', 'qn');

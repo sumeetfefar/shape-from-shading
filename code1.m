@@ -63,9 +63,9 @@ end
 
 figure(1)
 imshow(mat2gray(Depth));
-imshow(mat2gray(E));
+% imshow(mat2gray(E));
 
-save('DataFile1.mat', 'E', 's','radius','mask','boundary');
+save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init');
 
 
 
