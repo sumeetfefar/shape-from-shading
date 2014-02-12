@@ -1,4 +1,4 @@
-% Shape from Shading, EE 702, 2014
+% Shape from Shading, 2014
 % Ashwin Kachhara, Sumeet Fefar
 
 M=60;
@@ -65,7 +65,7 @@ figure(1)
 imshow(mat2gray(Depth));
 % imshow(mat2gray(E));
 
-save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init');
+save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'Depth');
 
 
 

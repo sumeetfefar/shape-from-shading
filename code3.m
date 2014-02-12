@@ -28,5 +28,7 @@ for kk = 1:iters,
     zold = zn;
 end
 
-figure;
+figure(3);
 imshow(mat2gray(zn));
+
+mse = sum(sum((zn-Depth).^2))/(M*N)
