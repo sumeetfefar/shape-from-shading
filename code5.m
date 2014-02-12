@@ -1,7 +1,7 @@
 % Shape from Shading, EE 702, 2014
 % Ashwin Kachhara, Sumeet Fefar
 
-% IMage generator with source direction = s_orig
+% Double Source with weight a & b code.
 
 M=64;
 N=64;
@@ -11,8 +11,8 @@ radius=25;
 Depth = zeros(M,N);
 E = 0.2 * ones(M,N);
 
-s_orig=[2,1];
-
+s1=[1,1];
+s2=[1,-1];
 p_init = zeros(M,N);
 q_init = zeros(M,N);
 f_init = zeros(M,N);
@@ -24,6 +24,9 @@ g_orig = zeros(M,N);
 mask = zeros(M,N);
 boundary = zeros(M,N);
 
+a=0.5;
+b=1-a;
+
 for i=1:M,
     for j=1:N,
         current_radius = sqrt((i-M/2)^2 + (j-N/2)^2);
@@ -33,7 +36,8 @@ for i=1:M,
             q = (j-N/2)/Depth(i,j);
             mask(i,j)=1;
 
-            temp = Rval(p, q, s_orig);
+            tempa = a * Rval(p, q, s1);
+            tempb = b * Rval(p,q,s2);
             if (round(current_radius) == round(radius))
                 p_init(i,j)= p;
                 q_init(i,j)= q;
@@ -47,8 +51,12 @@ for i=1:M,
             end
             f_orig(i,j) = 2*p/(1+sqrt(1+p^2+q^2));
             g_orig(i,j) = 2*q/(1+sqrt(1+p^2+q^2));
-            if(temp>0)
-                E(i,j) = temp;
+            if(tempa>0 &&tempb>0)
+                E(i,j) = tempa+tempb;
+            elseif(tempa>0)
+                E(i,j) = tempa;
+            elseif(tempb>0)
+                E(i,j) = tempb;
             else
                 E(i,j) = 0;
 
@@ -58,13 +66,10 @@ for i=1:M,
     end
 end
 
-%Source passed to algorithm used for reconstruction
-s = [0,0];
 
 figure;
 imshow(mat2gray(Depth));
 
-% Noisy image with gaussian noise
 E_noise = imnoise(E,'gaussian',0,5);
 
-save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');
+save('DataFile1.mat', 'E', 's1','s2','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');

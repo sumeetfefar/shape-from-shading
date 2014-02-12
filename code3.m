@@ -1,15 +1,18 @@
-clear all
+% Depth reconstruction
 
-load('DataFile1.mat')
-load('DataFile2.mat')
+%clear all
 
-M = size(R_est,1);
-N = size(R_est,2);
+%load('DataFile1.mat')
+%load('DataFile2.mat')
+
+
+M = size(E,1);
+N = size(E,2);
 
 iters = 1000;
 
-zn = zeros(size(R_est));
-zold = zeros(size(R_est));
+zn = zeros(size(E));
+z_old = zeros(size(E));
 
 px = diff(pn,1,1);
 qy = diff(qn,1,2);
@@ -19,16 +22,14 @@ for kk = 1:iters,
     for i=2:(M-1),
         for j=2:(N-1),
             if mask(i,j)==1
-                zn(i,j) = (zold(i,j-1)+zold(i-1,j)+zold(i,j+1)+zold(i+1,j))/4 + px(i,j) + qy(i,j);
+                zn(i,j) = Ravg(z_old,i,j) + px(i,j) + qy(i,j);
             else
                 zn(i,j) = 0;
             end
         end
     end
-    zold = zn;
+    z_old = zn;
 end
 
-figure(3);
+figure;
 imshow(mat2gray(zn));
-
-mse = sum(sum((zn-Depth).^2))/(M*N)
