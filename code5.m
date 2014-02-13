@@ -72,4 +72,4 @@ imshow(mat2gray(Depth));
 
 E_noise = imnoise(E,'gaussian',0,5);
 
-save('DataFile1.mat', 'E', 's1','s2','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');
+save('DataFile3.mat', 'E', 's1','s2','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');

@@ -12,17 +12,17 @@ N = size(E,2);
 
 iters = 1000;
 lambda = 0;
-mse = zeros(size((5:5:100),2),1);
+mse = zeros(size((105:5:150),2),1);
 
-for lambda = 5:5:100,
+for lambda = 105:5:150,
     disp(lambda/5)
     for kk = 1:iters,
 %         disp(kk)
         for i=2:(M-1),
             for j=2:(N-1),
                 if(boundary(i,j)==0 && mask(i,j) ==1)
-                    pn(i,j) = (p_old(i,j-1)+p_old(i-1,j)+p_old(i,j+1)+p_old(i+1,j))/4 + (1/lambda)*(E(i,j) - Rval(p_old(i,j), q_old(i,j), s))*Rp(p_old(i,j),q_old(i,j),s(1),s(2));
-                    qn(i,j) = (q_old(i,j-1)+q_old(i-1,j)+q_old(i,j+1)+q_old(i+1,j))/4 + (1/lambda)*(E(i,j) - Rval(p_old(i,j), q_old(i,j), s))*Rq(p_old(i,j),q_old(i,j),s(1),s(2));
+                    pn(i,j) = Ravg(p_old,i,j) + (1/lambda)*(E(i,j) - Rval(p_old(i,j), q_old(i,j), s))*Rp(p_old(i,j),q_old(i,j),s(1),s(2));
+                    qn(i,j) = Ravg(q_old,i,j) + (1/lambda)*(E(i,j) - Rval(p_old(i,j), q_old(i,j), s))*Rq(p_old(i,j),q_old(i,j),s(1),s(2));
                 else
                     pn(i,j) = p_old(i,j);
                     qn(i,j) = q_old(i,j);
@@ -57,7 +57,7 @@ for lambda = 5:5:100,
         for i=2:(M-1),
             for j=2:(N-1),
                 if mask(i,j)==1
-                    zn(i,j) = (zold(i,j-1)+zold(i-1,j)+zold(i,j+1)+zold(i+1,j))/4 + px(i,j) + qy(i,j);
+                    zn(i,j) = Ravg(zold,i,j) + px(i,j) + qy(i,j);
                 else
                     zn(i,j) = 0;
                 end

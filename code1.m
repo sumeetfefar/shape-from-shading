@@ -67,4 +67,4 @@ imshow(mat2gray(Depth));
 % Noisy image with gaussian noise
 E_noise = imnoise(E,'gaussian',0,5);
 
-save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');
+save('DataFile1.mat', 'E', 's','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise', 'Depth');
