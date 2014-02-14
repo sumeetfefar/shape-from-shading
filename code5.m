@@ -1,6 +1,7 @@
 % Shape from Shading, EE 702, 2014
 % Ashwin Kachhara, Sumeet Fefar
 
+clear all
 % Double Source with weight a & b code.
 
 M=64;
@@ -11,8 +12,11 @@ radius=25;
 Depth = zeros(M,N);
 E = 0.2 * ones(M,N);
 
+% Define Source 1 and 2
 s1=[1,1];
 s2=[1,-1];
+
+% Initialization
 p_init = zeros(M,N);
 q_init = zeros(M,N);
 f_init = zeros(M,N);
@@ -43,6 +47,8 @@ for i=1:M,
             
             % E2(Irradiance) due to Source s2
             tempb = b * Rval(p,q,s2);
+            
+            % Determine Initial Conditions
             if (round(current_radius) == round(radius))
                 p_init(i,j)= p;
                 q_init(i,j)= q;
@@ -77,6 +83,7 @@ end
 figure;
 imshow(mat2gray(Depth));
 
+% Noisy Version of Calculated Irradiance
 E_noise = imnoise(E,'gaussian',0,5);
 
-save('DataFile3.mat', 'E', 's1','s2','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise');
+save('DataFile3.mat', 'E', 's1','s2','radius','mask','boundary', 'p_init', 'q_init', 'f_init', 'g_init', 'E_noise','a','b');

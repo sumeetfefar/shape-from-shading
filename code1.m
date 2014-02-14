@@ -11,7 +11,8 @@ radius=25;% Radius of sphere
 Depth = zeros(M,N);
 E = 0.2 * ones(M,N); % Background Light
 
-s_orig=[1,1]; % p,q co-rdinate of source
+
+s_orig=[0,0]; % p,q co-rdinate of source
 
 % Initialization of difeerent matrices
 p_init = zeros(M,N);
@@ -72,7 +73,7 @@ end
 s = s_orig;%[1,1];
 
 figure;
-imshow(mat2gray(Depth));
+imshow(mat2gray(E));
 
 % Noisy image with gaussian noise
 E_noise = imnoise(E,'gaussian',0,5);

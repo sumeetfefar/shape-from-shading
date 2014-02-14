@@ -1,6 +1,6 @@
 % Double Source with weight a & b code Reconstruction
 
-
+clear all
 load('DataFile3.mat');
 
 M = size(E,1);
@@ -18,9 +18,11 @@ qn = zeros(size(En));
 
 
 
-iters = 300;
 lambda = 0.5  ;
 
+% We use the iterative method derived from variational calculus to estimate the values of p,q
+% Replace R -> a*R(s1)+ b*R(s2), Rp -> a*Rp(s1)+ b*Rp(s2), Rq -> a*Rq(s1)+ b*Rq(s2)
+iters = 600;
 for kk = 1:iters,
     disp(kk)
     for i=2:(M-1),
@@ -34,8 +36,9 @@ for kk = 1:iters,
             end
         end
     end
+    % Re assign the values for next iteration
     p_old = pn;
     q_old = qn;
 end
 
-save('DataFile3.mat', 'pn', 'qn');
+save('DataFile4.mat', 'pn', 'qn');

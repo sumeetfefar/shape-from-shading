@@ -1,29 +1,33 @@
-% p,q estimate from single source
+% Using f,g estimates to estimate the depth map of the image.
 
 clear all
 
 load('DataFile1.mat');
-% load('PQFfile.mat');
 
 M = size(E,1);
 N = size(E,2);
 
-% s=[ double(s(1)) double(s(2))];
+% Convert source co-ordinated from p,q into f,g
 s=[ double(2*s(1)/(1+sqrt(1+s(1)^2+s(2)^2))) double(2*s(2)/(1+sqrt(1+s(1)^2+s(2)^2)))];
 
-En = E_noise;
-% En = E;
+
+% Choose either value of irradiance as per requirement
+% En = E_noise;
+En = E;
+
 
 f_old = f_init;
 g_old = g_init;
 fn = zeros(size(En));
 gn = zeros(size(En));
 
-iters = 500;
-lambda = 01  ;
+% Set the number of iterations, value of the regularization (lambda)
+lambda = 01 ;
+iters = 500 ;
 
+% iterating to estimate f,g
 for kk = 1:iters,
-%     disp(kk)
+    disp(kk)
     for i=2:(M-1),
         for j=2:(N-1),
             if(boundaryfg(i,j)==0 && mask(i,j) ==1)
@@ -35,6 +39,8 @@ for kk = 1:iters,
             end
         end
     end
+    
+    % Re assign the values for next iteration
     f_old = fn;
     g_old = gn;
 end
@@ -42,13 +48,15 @@ end
 zn = zeros(size(E));
 z_old = zeros(size(E));
 
+% Define fx, fy, gx, gy
 fx = diff(fn,1,1);
 fy = diff(fn,1,2);
 gx = diff(gn,1,1);
 gy = diff(gn,1,2);
 
+% iterate to estimate z from f,g
 for kk = 1:iters,
-%     disp(kk)
+    disp(kk)
     for i=2:(M-1),
         for j=2:(N-1),
             if mask(i,j)==1
@@ -58,8 +66,11 @@ for kk = 1:iters,
             end
         end
     end
+    % Re assign the values for next iteration
     z_old = zn;
 end
 
 figure;
 imshow(mat2gray(zn));
+
+save('DataFile5.mat', 'pn', 'qn');
