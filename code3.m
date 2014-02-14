@@ -1,10 +1,9 @@
 % Depth reconstruction
 
-%clear all
+clear all
 
-%load('DataFile1.mat')
-%load('DataFile2.mat')
-
+load('DataFile1.mat')
+load('DataFile2.mat')
 
 M = size(E,1);
 N = size(E,2);
@@ -14,9 +13,13 @@ iters = 1000;
 zn = zeros(size(E));
 z_old = zeros(size(E));
 
+% Assume the Monge surface, calculate the first order partial derivatives 
+% of the p and q
 px = diff(pn,1,1);
 qy = diff(qn,1,2);
 
+
+% Apply the iterative method to estimate the value of depth at each point
 for kk = 1:iters,
     disp(kk)
     for i=2:(M-1),

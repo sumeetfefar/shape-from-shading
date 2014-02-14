@@ -11,7 +11,7 @@ radius=25;
 Depth = zeros(M,N);
 E = 0.2 * ones(M,N);
 
-s_orig=[2,1];
+s_orig=[-1,1];
 
 p_init = zeros(M,N);
 q_init = zeros(M,N);
@@ -62,7 +62,7 @@ end
 s = [0,0];
 
 figure;
-imshow(mat2gray(Depth));
+imshow(mat2gray(E));
 
 % Noisy image with gaussian noise
 E_noise = imnoise(E,'gaussian',0,5);

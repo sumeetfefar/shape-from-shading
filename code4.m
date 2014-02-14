@@ -1,5 +1,7 @@
-clear all
+% Testing different values of regularization parameter lambda for getting
+% minimum mean square error
 
+clear all
 load('DataFile1.mat');
 
 p_old= p_init;
@@ -12,12 +14,14 @@ N = size(E,2);
 
 iters = 1000;
 lambda = 0;
+
+% Iterating mse over desired range
 mse = zeros(size((105:5:150),2),1);
 
+% Estimating p,q
 for lambda = 105:5:150,
     disp(lambda/5)
     for kk = 1:iters,
-%         disp(kk)
         for i=2:(M-1),
             for j=2:(N-1),
                 if(boundary(i,j)==0 && mask(i,j) ==1)
@@ -41,8 +45,7 @@ for lambda = 105:5:150,
             end
         end
     end
-%     figure(2)
-%     imshow(mat2gray(R_est));
+% Save images for estimated p and q
     imwrite(mat2gray(pn), strcat('img/pn-',num2str(lambda/5),'.jpg'));
     imwrite(mat2gray(qn), strcat('img/qn-',num2str(lambda/5),'.jpg'));
 
@@ -51,9 +54,8 @@ for lambda = 105:5:150,
 
     px = diff(pn,1,1);
     qy = diff(qn,1,2);
-
+% Estimating z from computed values of p,q
     for kk = 1:iters,
-%         disp(kk)
         for i=2:(M-1),
             for j=2:(N-1),
                 if mask(i,j)==1
@@ -66,9 +68,7 @@ for lambda = 105:5:150,
         zold = zn;
     end
 
-%     figure(3);
-%     imshow(mat2gray(zn));
     imwrite(mat2gray(zn), strcat('img/zn-',num2str(lambda/5),'.jpg'));
-
+% mse values are stored in this variable
     mse(lambda/5) = sum(sum((zn-Depth).^2))/(M*N);
 end

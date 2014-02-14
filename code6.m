@@ -1,14 +1,13 @@
-% p,q estimate from single source
+% Using f,g estimates to estimate the depth map of the image.
 
 clear all
 
 load('DataFile1.mat');
-% load('PQFfile.mat');
 
 M = size(E,1);
 N = size(E,2);
 
-
+% Choose either value of irradiance as per requirement
 % En = E_noise;
 En = E;
 
@@ -20,6 +19,7 @@ gn = zeros(size(En));
 iters = 300;
 lambda = 0.1  ;
 
+% iterating to estimate f,g
 for kk = 1:iters,
     disp(kk)
     for i=2:(M-1),
@@ -45,6 +45,7 @@ fy = diff(fn,1,2);
 gx = diff(gn,1,1);
 gy = diff(gn,1,2);
 
+% iterate to estimate z from f,g
 for kk = 1:iters,
     disp(kk)
     for i=2:(M-1),
