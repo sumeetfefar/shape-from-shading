@@ -24,6 +24,8 @@ g_orig = zeros(M,N);
 mask = zeros(M,N);
 boundary = zeros(M,N);
 
+% a : Relative Strength of source s1
+% b : Relative Strength of source s2
 a=0.5;
 b=1-a;
 
@@ -35,8 +37,11 @@ for i=1:M,
             p = (i-M/2)/Depth(i,j);
             q = (j-N/2)/Depth(i,j);
             mask(i,j)=1;
-
+            
+            % E1(Irradiance) due to Source s1
             tempa = a * Rval(p, q, s1);
+            
+            % E2(Irradiance) due to Source s2
             tempb = b * Rval(p,q,s2);
             if (round(current_radius) == round(radius))
                 p_init(i,j)= p;
@@ -51,6 +56,8 @@ for i=1:M,
             end
             f_orig(i,j) = 2*p/(1+sqrt(1+p^2+q^2));
             g_orig(i,j) = 2*q/(1+sqrt(1+p^2+q^2));
+            
+            % Ensure non-negativity of E1 and E2, Superpose E = E1+E2
             if(tempa>0 &&tempb>0)
                 E(i,j) = tempa+tempb;
             elseif(tempa>0)
